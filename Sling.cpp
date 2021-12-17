@@ -345,7 +345,7 @@ double z(NumericMatrix &X, NumericVector &y, NumericVector &w,
           int i, int n, double w0){
   double tot = 0;
   for (int j = 0; j < n; j++){
-    double yhj = w0 + sum(w * X(j, _ )) - w[0]*X(j, i);
+    double yhj = w0 + sum(w * X(j, _ )) - w[i]*X(j, i);
     tot += (y[j] - yhj) * X(j, i);
   }
   return tot/n;
@@ -395,11 +395,11 @@ List standardLasso(NumericMatrix &X, NumericVector &y, double l){
       NumericVector wr = clone(w);
       double zi = z(X, y, w, i, n, w0);
       double ai = a(X, i);
-      if (zi > 1){
-        w[i] = (zi-1)/ai;
+      if (zi > l){
+        w[i] = (zi-l)/ai;
       }
       else if (zi < -l){
-        w[i] = (zi+1)/ai;
+        w[i] = (zi+l)/ai;
       }
       else{
         w[i] = 0;
