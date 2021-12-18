@@ -1,0 +1,16 @@
+Package: Sling
+Type: Package
+Title: Implementation of Sling: Fast Lasso Algorithm via Selective
+        Coordinate Descent
+Version: 1.0
+Date: 2021-12-17
+Author: Jiayuan Xiao, Shu Zhou, Bella Chen
+Maintainer: Jiayuan Xiao <jyxiao@umich.edu>
+Description: Implementation of Sling
+License: GPL (>= 3)
+Imports: Rcpp (>= 1.0.7)
+LinkingTo: Rcpp
+Encoding: UTF-8
+RoxygenNote: 7.1.2
+NeedsCompilation: yes
+Packaged: 2021-12-18 03:53:43 UTC; owenx
