@@ -452,7 +452,7 @@ void update(int i, int n, double l, NumericMatrix &X, NumericVector &y,
 }
 
 // [[Rcpp::export]]
-List sling2(NumericMatrix &X, NumericVector &y, double l){
+List sling2(NumericMatrix &X, NumericVector &y, double l, int max_iter = 100){
   int n = X.nrow();
   int p = X.ncol();
   //double l = 100/(2*n);
@@ -484,12 +484,14 @@ List sling2(NumericMatrix &X, NumericVector &y, double l){
     double err = 1e-4;
     NumericVector prev(p);
     prev = prev + R_PosInf;
+    
     while (is_true(all(abs(w-prev)>err))){
       prev = w;  //Need to clone?
       for (int j = 0; j < U.length(); j++){
         int i = U[j];
         double z_low_i = z_low(i, n, w, wr, v, zr);
         double z_up_i = z_up(i, n, w, wr, v, zr);
+        
         if ((z_low_i > l) || (z_up_i < -l)){
           update(i, n, l, X, y, w, w0);
           //NumericVector a = clone(w);
@@ -500,13 +502,16 @@ List sling2(NumericMatrix &X, NumericVector &y, double l){
     
     wr = w;
     zr = wr + mvmult(X_T, y)/n;
-    prev = prev*0 + R_PosInf;
-    while (is_true(all(abs(w-prev)>err))){
-      prev = w;  //Need to clone?
+    NumericVector prev2(p);
+    prev2 = prev2 + R_PosInf;
+    
+    while (is_true(all(abs(w-prev2)>err))){
+      prev2 = w;  //Need to clone?
       for (int j = 0; j < U.length(); j++){
         int i = U[j];
         double z_low_i = z_low(i, n, w, wr, v, zr);
         double z_up_i = z_up(i, n, w, wr, v, zr);
+        
         if ((z_up_i > l) || (z_low_i < -l)){
           update(i, n, l, X, y, w, w0);
           //NumericVector a = clone(w);
@@ -530,6 +535,13 @@ List sling2(NumericMatrix &X, NumericVector &y, double l){
           U.push_back(i);
         }
       }
+    }
+    
+    if (itr >= max_iter){
+      
+      Rcout << "Break" << endl;  //PRINT
+      
+      break;
     }
   }
   return List::create(Named("w", w), /*Named("ws", ws),*/ Named("itr", itr));
