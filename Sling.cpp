@@ -3,7 +3,7 @@
 //Purpose: 
     
 
-#include "Sling.h"
+//#include "Sling.h"
 #include <Rcpp.h>
 #include <numeric> //accumulate
 #include <cmath> //sqrt
@@ -369,13 +369,13 @@ bool KKT(NumericMatrix &X, NumericVector &y, NumericVector &w,
 }
 
 // [[Rcpp::export]]
-List standardLasso(NumericMatrix &X, NumericVector &y, double l){
+List standardLasso(NumericMatrix &X, NumericVector &y, double l, int max_iter = 100){
   int n = X.nrow();
   int p = X.ncol();
   //double l = 100/(2*n);
   double w0 = mean(y);
   NumericVector w(p);
-  //w = w+1;
+  w = w+1;
   //DataFrame ws;  //part of result
   NumericVector trainmse;
   NumericVector testmse;
@@ -413,6 +413,12 @@ List standardLasso(NumericMatrix &X, NumericVector &y, double l){
       if (!isKKT){
         nkkt += 1;
       }
+    }
+    if (itr >= max_iter){
+      
+      Rcout << "Break" << endl;  //PRINT
+      
+      break;
     }
   }
   return List::create(Named("w", w), /*Named("ws", ws),*/ Named("itr", itr));
