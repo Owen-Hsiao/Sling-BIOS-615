@@ -1,5 +1,7 @@
 # Sling-BIOS-615
 
+This package is an implementation of the standard lasso algorithm and the Sling algorithm.
+
 ## References
 
 <div id="refs" class="references">
@@ -15,9 +17,10 @@ Descent.” *Journal of Statistical Software, Articles* 33 (1): 1–22.
 
 <div id="ref-sling">
 
-Fujiwara, Y., Ida, Y., Shiokawa, H., and Iwamura, S. (2016, February). 
+Fujiwara, Y., Ida, Y., Shiokawa, H., and Iwamura, S. 2016. 
 "Fast lasso algorithm via selective coordinate descent." 
-*Proceedings of the AAAI Conference on Artificial Intelligence* (Vol. 30, No. 1).
+*Proceedings of the AAAI Conference on Artificial Intelligence* Vol. 30, No. 1.
+<https://dl.acm.org/doi/10.5555/3016100.3016117>
 
 </div>
 
